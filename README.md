@@ -23,3 +23,14 @@ The images of the provides chessboards varied along a couple of dimensions:
 * most images were in jpg format, but one was in png format.
 * the number of corners visible/findable on the chess boards varied considerably. To accomodate for this I looped over a range of possible combinations of corners in x and y direction, for the findChessboardCorners function to provide corners.
 
+Below are two sets of chessboards, with found corners and the undistorted version
+
+![chessboardcorners1](https://cloud.githubusercontent.com/assets/23193240/22209623/7544a81a-e187-11e6-8a8e-23e0c38fc248.jpg)Obviously distorted
+
+![undistorted1](https://cloud.githubusercontent.com/assets/23193240/22209777/074825c0-e188-11e6-8eb4-1bb4e94d5f4f.jpg)Rectified
+
+![chessboardcorners2](https://cloud.githubusercontent.com/assets/23193240/22209845/12d339d4-e188-11e6-9da9-5dca1add29c9.jpg)Corners are hard to find on a chessboard of which not all corners are visibles
+
+![undistorted2](https://cloud.githubusercontent.com/assets/23193240/22209639/82526f60-e187-11e6-9405-a707655ef5da.jpg)Rectified
+
+
