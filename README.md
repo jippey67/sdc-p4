@@ -25,6 +25,8 @@ The images of the provides chessboards varied along a couple of dimensions:
 
 Below are two sets of chessboards, with found corners and the undistorted version
 
+<img src="https://cloud.githubusercontent.com/assets/23193240/22209623/7544a81a-e187-11e6-8a8e-23e0c38fc248.jpg" width="356" height="200" />
+
 ![chessboardcorners1](https://cloud.githubusercontent.com/assets/23193240/22209623/7544a81a-e187-11e6-8a8e-23e0c38fc248.jpg)Obviously distorted
 
 ![undistorted1](https://cloud.githubusercontent.com/assets/23193240/22209777/074825c0-e188-11e6-8eb4-1bb4e94d5f4f.jpg)Rectified
