@@ -88,4 +88,13 @@ This method of finding the lane lines provided reliable lanes, albeit quite jitt
 
 ## 5. calculate lane curvature and position of the car relative to the center of the lane
 
-In the calculation of the image-to-birds eye transform 
+In the calculation of the image-to-birds eye transform, I calculated lane width, dashed lane line and position of the camera in the car (obtained from viewing many images: The hood seems to disappear on the same distances left and right from the center of the image). Those distances are all in pixel space and need to be converted to meter space before useful conclusion can be drawn. Based on the U.S. regulations for highways a assumed the lane width to be 3.7 meters, and the dashed lane lines to be 3 meters long. 
+
+For the curvature of the road I took the average of the parameters of the left and right lane line, and calculated the curvature of the road at the level nearest to the car (y=719), and of course in bird eyes view. The position of the car relative to the road was calculated by averaging the x-values of the left and right lane line, also at the nearest position to the car. The distance in pixels from the center of the image was converted to meters, where a negative value means that the car is on the left side of the lane, and a positive value that the car is on the right side of the lane.
+
+## 6. drawing the lane over the camera image
+
+With the found lane lines in bird eyes view, a lane was plotted in this perspective. This plot was then unwarped, and stacked as a green layer on top of the original (but corrected for camera distortion) image. Lane radius and relative position of the car were added to the image as text. The resulting video can be seen here: 
+
+
+
