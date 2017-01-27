@@ -31,6 +31,8 @@ Below are two sets of chessboards, left the distorted image with found corners a
 <img src="https://cloud.githubusercontent.com/assets/23193240/22209845/12d339d4-e188-11e6-9da9-5dca1add29c9.jpg" width="356" height="200" /> 
 <img src="https://cloud.githubusercontent.com/assets/23193240/22209639/82526f60-e187-11e6-9405-a707655ef5da.jpg" width="356" height="200" />
 
+The calculation of the camera matrices was doen with the program cam_cal.py, included in the repository
+
 ## finding lane line pixels
 
 The strategy that I employed here is to find various layers that had <u>only</u> lane line pixels in them and subsequently stack them on top of eachother by a binary OR function. This required tuning the various operators at hand to filter out pixels that don't belong to lane lines. I created a tool for doing that, included in this repository (directory Sobel-tools), with slide bars for various parameters that change the behavior of the sobel operator and color masks. With the tool I could obtain a good inside look into how the various parameters interact. The Sobel tool has six sliders, making available changes in: 
@@ -51,18 +53,14 @@ Below are examples of the sobel gradient in x direction and color mask layers
 <img src="https://cloud.githubusercontent.com/assets/23193240/22370292/017dc53a-e491-11e6-9b6f-23bf20b4b26e.jpg" width="356" height="200" /> 
 <img src="https://cloud.githubusercontent.com/assets/23193240/22370291/01677258-e491-11e6-9854-4b05dcaf7f6a.jpg" width="356" height="200" /> 
 
-The originbal image and the combined layer:
+The original image and the combined layer:
 
 <img src="https://cloud.githubusercontent.com/assets/23193240/22370336/3563fca2-e491-11e6-89a1-3b0122ae155f.jpg" width="356" height="200" /> 
 <img src="https://cloud.githubusercontent.com/assets/23193240/22370293/01862702-e491-11e6-9093-c85180ea3c74.jpg" width="356" height="200" /> 
 
-The next step is either to find lane lines on the undistorted image or to first convert the image to bird eyes view. Bird eyes view is essentially required for calculating the road radius, and it also promises a more natural fit of the lane line to a quadratic function. My first approach was to start with transformation to bird eyes view, because the lane lines than (at least theoretically) will have the same width, where as in the camera view image they become smaller the farther they are away. As the lane finding will be done by a Sobel operator with a certain fixed kernel size, it makes sense to have this operator perform on lane lines that have equal width 'along the way'. It however turns out that a bird eyes view transformation can heavily blur the image, resulting in lane lines that also become blurred and not easily recognizeable. Anticipating on the section on bird's view transformation, I show here the undistorted picture of the camera and a blurred bird eyes view.
-
-
+As is clear from the stacked image, a lot of unwanted details are still in the picture. By searching only the most likely neighborhood of the image, only the relevant pixels are found. This is described in the paragraph 4. Also many details will disappear after the bird eyes transform which we will turn to now.
 
 ## transforming the image to a bird's view
-
-The question arose whether to find lane lines first and subsequently do the bird's view transform, or do it the other way around. I chose to first change the perspective as the lane lines will then have more or less the same width regardless of the distance from the car. This makes sense as I will use a Sobel operator that uses a kernel size in relation to the edges it needs to find. 
 
 OpenCV provides the warpPerspective function that can will do a perspectiv transform. Alongside the image to be warped, it needs a matrix as input. This matrix is calculated by another OpenCV function: getPerspectiveTransform. This function needs two sets of points: 
 1.        points that form a rectangle on the image when seen from a bird's perspective
@@ -71,7 +69,8 @@ To be able to later on calculate the road curvature and the position of the car 
 1.        The camera is at the center of the car, and aligned with the car.
 2.        The car is aligned with the road
 3.        The road segment used for calculating is straight and the dashed line is 3 meters long
-Based on the assumptions a had the perspective transform matrix automatically calculated. The road and car details like lane width in pixels, dashed line length in pixels, and the center of the car with respect to the camera, were saved for later use.
+Based on the assumptions I had the perspective transform matrix automatically calculated. The road and car details like lane width in pixels, dashed line length in pixels, and the center of the car with respect to the camera, were saved for later use.
+
 
 Below are a picture of the road and it's warped version.
 ![test5](https://cloud.githubusercontent.com/assets/23193240/22211411/368db2b4-e18d-11e6-8098-d6c762348892.jpg) the original
