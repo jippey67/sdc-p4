@@ -6,8 +6,8 @@ The objective of the project is to find the lane lines on the road, lay them ove
 There are a couple of steps in the process:
           
 1.  correcting the distortion of the camera lens
-2.  transforming the image to obtain a bird's view
-3.  finding pixels that are part of a lane line
+2.  finding pixels that are part of a lane line
+3.  transforming the image to obtain a bird's view
 4.  approximate a quadratic function for the lane lines
 5.  calculate lane curvature and position of the car relative to the center of the lane
 6.  drawing the lane over the camera image
@@ -31,6 +31,12 @@ Below are two sets of chessboards, left the distorted image with found corners a
 <img src="https://cloud.githubusercontent.com/assets/23193240/22209845/12d339d4-e188-11e6-9da9-5dca1add29c9.jpg" width="356" height="200" /> 
 <img src="https://cloud.githubusercontent.com/assets/23193240/22209639/82526f60-e187-11e6-9405-a707655ef5da.jpg" width="356" height="200" />
 
+## finding lane line pixels
+
+The next step is either to find lane lines on the undistorted image or to first convert the image to bird eyes view. Bird eyes view is essentially required for calculating the road radius, and it also promises a more natural fit of the lane line to a quadratic function. My first approach was to start with transformation to bird eyes view, because the lane lines than (at least theoretically) will have the same width, where as in the camera view image they become smaller the farther they are away. As the lane finding will be done by a Sobel operator with a certain fixed kernel size, it makes sense to have this operator perform on lane lines that have equal width 'along the way'. It however turns out that a bird eyes view transformation can heavily blur the image, resulting in lane lines that also become blurred and not easily recognizeable. Anticipating on the section on bird's view transformation, I show here the undistorted picture of the camera and a blurred bird eyes view.
+
+
+
 ## transforming the image to a bird's view
 
 The question arose whether to find lane lines first and subsequently do the bird's view transform, or do it the other way around. I chose to first change the perspective as the lane lines will then have more or less the same width regardless of the distance from the car. This makes sense as I will use a Sobel operator that uses a kernel size in relation to the edges it needs to find. 
@@ -49,7 +55,7 @@ Below are a picture of the road and it's warped version.
 
 ![test5warped](https://cloud.githubusercontent.com/assets/23193240/22211415/387bd6e6-e18d-11e6-90b1-6df428e675a3.jpg) bird's eye perspective
 
-## finding lane line pixels
+
 
 
 
