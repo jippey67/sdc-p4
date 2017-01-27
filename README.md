@@ -46,12 +46,15 @@ I ended up finding six layers (Sobel or colormasked) that seemed to be worthwile
 * Color threshold on the S channel in HLS space with thresholds of 20 and 100
 Those layers are then combined by adding them up, essentially performing a binary OR
 
-![color_mask](https://cloud.githubusercontent.com/assets/23193240/22370291/01677258-e491-11e6-9854-4b05dcaf7f6a.jpg)
-![sobel_x](https://cloud.githubusercontent.com/assets/23193240/22370292/017dc53a-e491-11e6-9b6f-23bf20b4b26e.jpg)
-![stacked](https://cloud.githubusercontent.com/assets/23193240/22370293/01862702-e491-11e6-9093-c85180ea3c74.jpg)
+Below are examples of the sobel gradient in x direction and color mask layers
 
+<img src="https://cloud.githubusercontent.com/assets/23193240/22370292/017dc53a-e491-11e6-9b6f-23bf20b4b26e.jpg" width="356" height="200" /> 
+<img src="https://cloud.githubusercontent.com/assets/23193240/22370291/01677258-e491-11e6-9854-4b05dcaf7f6a.jpg" width="356" height="200" /> 
 
+The originbal image and the combined layer:
 
+<img src="https://cloud.githubusercontent.com/assets/23193240/22370336/3563fca2-e491-11e6-89a1-3b0122ae155f.jpg" width="356" height="200" /> 
+<img src="https://cloud.githubusercontent.com/assets/23193240/22370293/01862702-e491-11e6-9093-c85180ea3c74.jpg" width="356" height="200" /> 
 
 The next step is either to find lane lines on the undistorted image or to first convert the image to bird eyes view. Bird eyes view is essentially required for calculating the road radius, and it also promises a more natural fit of the lane line to a quadratic function. My first approach was to start with transformation to bird eyes view, because the lane lines than (at least theoretically) will have the same width, where as in the camera view image they become smaller the farther they are away. As the lane finding will be done by a Sobel operator with a certain fixed kernel size, it makes sense to have this operator perform on lane lines that have equal width 'along the way'. It however turns out that a bird eyes view transformation can heavily blur the image, resulting in lane lines that also become blurred and not easily recognizeable. Anticipating on the section on bird's view transformation, I show here the undistorted picture of the camera and a blurred bird eyes view.
 
