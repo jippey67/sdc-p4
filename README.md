@@ -82,13 +82,6 @@ Based on the bird eyes view of the stacked layer the calculations of parameters 
 
 This method of finding the lane lines provided reliable lanes, albeit quite jittery. I therefore introduced a smoothing mechanism by calculating a moving and weighted average of the function parameters. The last 10 frames are used where the most recent had a weight of 10. Each earlier frame had the weight decreased by 1. This provide a much smoother lane line, weheras the history was short enough (10 frames is less than half a second) to be relevant. 
 
+## 5. calculate lane curvature and position of the car relative to the center of the lane
 
-
-
-
-
-
-
-
-
-As there are many parameters to choose (X/Y/direction of the gradient, Colorspace, Layer within colorspace, kernel size, upper and lower thresholds), I created a program that provided sliding bars for each parameter. This allowed me to research many combinations and finally to come up with a set of valid 'pixel selectors'. The strategy I followed was to come up with many different layers and narrow each down to only select lane line pixels
+In the calculation of the image-to-birds eye transform 
