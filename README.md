@@ -46,6 +46,9 @@ I ended up finding six layers (Sobel or colormasked) that seemed to be worthwile
 * Color threshold on the S channel in HLS space with thresholds of 20 and 100
 Those layers are then combined by adding them up, essentially performing a binary OR
 
+![color_mask](https://cloud.githubusercontent.com/assets/23193240/22370291/01677258-e491-11e6-9854-4b05dcaf7f6a.jpg)
+![sobel_x](https://cloud.githubusercontent.com/assets/23193240/22370292/017dc53a-e491-11e6-9b6f-23bf20b4b26e.jpg)
+![stacked](https://cloud.githubusercontent.com/assets/23193240/22370293/01862702-e491-11e6-9093-c85180ea3c74.jpg)
 
 
 
