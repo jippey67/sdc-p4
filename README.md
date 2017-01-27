@@ -33,6 +33,23 @@ Below are two sets of chessboards, left the distorted image with found corners a
 
 ## finding lane line pixels
 
+The strategy that I employed here is to find various layers that had <u>only</u> lane line pixels in them and subsequently stack them on top of eachother by a binary OR function. This required tuning the various operators at hand to filter out pixels that don't belong to lane lines. I created a tool for doing that, included in this repository (directory Sobel-tools), with slide bars for various parameters that change the behavior of the sobel operator and color masks. With the tool I could obtain a good inside look into how the various parameters interact. The Sobel tool has six sliders, making available changes in: 
+* Colorspace
+* Layer within the Colorspace
+* Method (Sobel-x, Sobel-y, Sobel size of gradient, Sobel direction of gradient)
+* Size of the Sobel kernel
+* lower threshold
+* upper threshold
+
+I ended up finding six layers (Sobel or colormasked) that seemed to be worthwile to include in the final process. However in practice those layers together found an unacceptably large number of pixels not belonging to lane lines, leading to a badly performing pipeline on the video stream. Another reason to include a smaller number of layers is the processing time it took to handle those layers. Experimentally peeling of layers resulted in a leaner pipeline, in which the following to layers are used to find lane line pixels:
+* Sobel gradient in x direction on L channel in HLS space with thresholds of 170 and 255
+* Color threshold on the S channel in HLS space with thresholds of 20 and 100
+Those layers are then combined by adding them up, essentially performing a binary OR
+
+
+
+
+
 The next step is either to find lane lines on the undistorted image or to first convert the image to bird eyes view. Bird eyes view is essentially required for calculating the road radius, and it also promises a more natural fit of the lane line to a quadratic function. My first approach was to start with transformation to bird eyes view, because the lane lines than (at least theoretically) will have the same width, where as in the camera view image they become smaller the farther they are away. As the lane finding will be done by a Sobel operator with a certain fixed kernel size, it makes sense to have this operator perform on lane lines that have equal width 'along the way'. It however turns out that a bird eyes view transformation can heavily blur the image, resulting in lane lines that also become blurred and not easily recognizeable. Anticipating on the section on bird's view transformation, I show here the undistorted picture of the camera and a blurred bird eyes view.
 
 
