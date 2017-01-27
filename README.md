@@ -94,7 +94,9 @@ For the curvature of the road I took the average of the parameters of the left a
 
 ## 6. drawing the lane over the camera image
 
-With the found lane lines in bird eyes view, a lane was plotted in this perspective. This plot was then unwarped, and stacked as a green layer on top of the original (but corrected for camera distortion) image. Lane radius and relative position of the car were added to the image as text. The resulting video can be seen [here:](https://github.com/jippey67/sdc-p4/blob/master/project_video.mp4)
+With the found lane lines in bird eyes view, a lane was plotted in this perspective. This plot was then unwarped, and stacked as a green layer on top of the original (but corrected for camera distortion) image. Lane radius and relative position of the car were added to the image as text. The resulting video can be downloaded [here:](https://github.com/jippey67/sdc-p4/blob/master/project_video.mp4)
+
+
 
 
 
