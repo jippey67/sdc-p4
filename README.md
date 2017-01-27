@@ -77,6 +77,8 @@ Below are the warped versions of the color camera image and the stacked layer
 <img src="https://cloud.githubusercontent.com/assets/23193240/22370857/f3d39a60-e493-11e6-9066-ddceb8c11b6a.jpg" width="356" height="200" /> 
 <img src="https://cloud.githubusercontent.com/assets/23193240/22370852/eed1683a-e493-11e6-99f8-8e2f53df382a.jpg" width="356" height="200" /> 
 
+The calculation of the warp and unwarp matrices was done with the program auto_persp_transf.py, included in the repository
+
 ## 4. approximate a quadratic function for the lane lines
 
 Based on the bird eyes view of the stacked layer the calculations of parameters of the left and right lane lines are done. To obtain approximate positions in x-direction of the lane lines, a histogram is taken of the sum of all found pixels in all columns. This results in peaks where many pixels are found. In the picture below theres is a clear peak for the left lane line. For the right lane, there are two peaks found, caused by the occurence of dashed lanes in the picture. The algortihm finds the right place to start, as the first of the right lane peaks is a little higher than the second one.
@@ -96,6 +98,8 @@ For the curvature of the road I took the average of the parameters of the left a
 ## 6. drawing the lane over the camera image
 
 With the found lane lines in bird eyes view, a lane was plotted in this perspective. This plot was then unwarped, and stacked as a green layer on top of the original (but corrected for camera distortion) image. Lane radius and relative position of the car were added to the image as text. The resulting video can be downloaded [here:](https://github.com/jippey67/sdc-p4/blob/master/project_video.mp4)
+
+The pipeline is run from the program find_video_lanes.py, while many functions and classes are included from lane_finder_utils.py. Both files are included in the repository
 
 ## 7. discussion
 
