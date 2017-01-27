@@ -14,7 +14,7 @@ There are a couple of steps in the process:
 
 I will go over a these steps now, one by one.
 
-## correcting for camera distortion
+## 1. correcting for camera distortion
 
 With the project came 20 images of a chess board that can be used to calculate the camera matrix and the distance coefficients. The OpenCV function findChessboardCorners can find corners that should be evely distributed on a rectangular grid. With all the corners found from chessboards in multiple positions relative to the camera, another OpenCV function - calibrateCamera - will calculate the camera matrix and the distance coefficients. Those matrices are required as input to another OpenCV function, called undistort, together with a source image to calculate an undistorted image.
 
@@ -33,7 +33,7 @@ Below are two sets of chessboards, left the distorted image with found corners a
 
 The calculation of the camera matrices was doen with the program cam_cal.py, included in the repository
 
-## finding lane line pixels
+## 2. finding lane line pixels
 
 The strategy that I employed here is to find various layers that had <u>only</u> lane line pixels in them and subsequently stack them on top of eachother by a binary OR function. This required tuning the various operators at hand to filter out pixels that don't belong to lane lines. I created a tool for doing that, included in this repository (directory Sobel-tools), with slide bars for various parameters that change the behavior of the sobel operator and color masks. With the tool I could obtain a good inside look into how the various parameters interact. The Sobel tool has six sliders, making available changes in: 
 * Colorspace
@@ -60,7 +60,7 @@ The original image and the combined layer:
 
 As is clear from the stacked image, a lot of unwanted details are still in the picture. By searching only the most likely neighborhood of the image, only the relevant pixels are found. This is described in the paragraph 4. Also many details will disappear after the bird eyes transform which we will turn to now.
 
-## transforming the image to a bird's view
+## 3. transforming the image to a bird's view
 
 OpenCV provides the warpPerspective function that can will do a perspectiv transform. Alongside the image to be warped, it needs a matrix as input. This matrix is calculated by another OpenCV function: getPerspectiveTransform. This function needs two sets of points: 
 1.        points that form a rectangle on the image when seen from a bird's perspective
@@ -69,14 +69,18 @@ To be able to later on calculate the road curvature and the position of the car 
 1.        The camera is at the center of the car, and aligned with the car.
 2.        The car is aligned with the road
 3.        The road segment used for calculating is straight and the dashed line is 3 meters long
-Based on the assumptions I had the perspective transform matrix automatically calculated. The road and car details like lane width in pixels, dashed line length in pixels, and the center of the car with respect to the camera, were saved for later use.
+Based on these assumptions I had the perspective transform matrix automatically calculated. The left and right lane provide a vanishing point where they intersect. Moving back a little towards the car on those lines provided a bird's eyes rectangle, that from the camera view was around 700 pixels wide near the car and 40 pixels wide at the far end. The road and car details like lane width in pixels, dashed line length in pixels, and the center of the car with respect to the camera, were saved for later use.
 
 Below are the warped versions of the color camera image and the stacked layer
 
 <img src="https://cloud.githubusercontent.com/assets/23193240/22370857/f3d39a60-e493-11e6-9066-ddceb8c11b6a.jpg" width="356" height="200" /> 
 <img src="https://cloud.githubusercontent.com/assets/23193240/22370852/eed1683a-e493-11e6-99f8-8e2f53df382a.jpg" width="356" height="200" /> 
 
+## 4. approximate a quadratic function for the lane lines
 
+Based on the bird eyes view of the stacked layer the calculations of parameters of the left and right lane lines are done. To obtain approximate positions in x-direction of the lane lines, a histogram is taken of the sum of all found pixels in all columns. This results in two peaks where many pixels are found. The x-locations of those peaks are the starting point for finding all the assumed lane line pixels by moving a box upwards over the image, and adding all found pixels in the box to the list of assumed lane line pixels. Each box starts on the center of x-positions found on the layer beneath it, making it follow the lane line. A box size of 200 pixels wide and 50 pixels high provided good results. Only the lower 10 levels (of 50 pixels) are scanned, because in the upper part some scenery pixels are included. With the found lane pixels a quadratic fit is done to obtain the formula for the left and right lane line. Once the first image is handled each subsequent image is scanned from the x-positions found by providing the formulas for the left and righ lane lines with the bottom y-value (719).
+
+This method of finding the lane lines provided reliable lanes, albeit quite jittery. I therefore introduced a smoothing mechanism by calculating a moving and weighted average of the function parameters. The last 10 frames are used where the most recent had a weight of 10. Each earlier frame had the weight decreased by 1. This provide a much smoother lane line, weheras the history was short enough (10 frames is less than half a second) to be relevant. 
 
 
 
