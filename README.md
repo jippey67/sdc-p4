@@ -71,11 +71,10 @@ To be able to later on calculate the road curvature and the position of the car 
 3.        The road segment used for calculating is straight and the dashed line is 3 meters long
 Based on the assumptions I had the perspective transform matrix automatically calculated. The road and car details like lane width in pixels, dashed line length in pixels, and the center of the car with respect to the camera, were saved for later use.
 
+Below are the warped versions of the color camera image and the stacked layer
 
-Below are a picture of the road and it's warped version.
-![test5](https://cloud.githubusercontent.com/assets/23193240/22211411/368db2b4-e18d-11e6-8098-d6c762348892.jpg) the original
-
-![test5warped](https://cloud.githubusercontent.com/assets/23193240/22211415/387bd6e6-e18d-11e6-90b1-6df428e675a3.jpg) bird's eye perspective
+<img src="https://cloud.githubusercontent.com/assets/23193240/22370857/f3d39a60-e493-11e6-9066-ddceb8c11b6a.jpg" width="356" height="200" /> 
+<img src="https://cloud.githubusercontent.com/assets/23193240/22370852/eed1683a-e493-11e6-99f8-8e2f53df382a.jpg" width="356" height="200" /> 
 
 
 
