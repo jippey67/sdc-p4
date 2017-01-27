@@ -11,6 +11,7 @@ There are a couple of steps in the process:
 4.  approximate a quadratic function for the lane lines
 5.  calculate lane curvature and position of the car relative to the center of the lane
 6.  drawing the lane over the camera image
+7.  discussion
 
 I will go over a these steps now, one by one.
 
@@ -96,7 +97,8 @@ For the curvature of the road I took the average of the parameters of the left a
 
 With the found lane lines in bird eyes view, a lane was plotted in this perspective. This plot was then unwarped, and stacked as a green layer on top of the original (but corrected for camera distortion) image. Lane radius and relative position of the car were added to the image as text. The resulting video can be downloaded [here:](https://github.com/jippey67/sdc-p4/blob/master/project_video.mp4)
 
+## 7. discussion
 
+This project was quite demanding. It is not easy to discriminate lane line pixels from others. Playing with the various color spaces, Sobel filters and color masks provided me with an increasing insight in what might work and what absolutely didn't work. Averaging the lane lines over a couple of frames did the job for making the lane lines relatively smooth, but as can be seen from the video, the algorithm had difficulties to lock to the dashed lane line.
 
-
-
+A subsequent step would be to isolate lane segments and identify whether they fit on a smootly curving line. I think that is what humans do when following a dashed line: follow the line as if it weren't dashed, and see if you encounter the next section. But it's time to go onto the next project, so I'll leave it as it is for the moment.
