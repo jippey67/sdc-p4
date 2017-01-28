@@ -36,13 +36,15 @@ The calculation of the camera matrices was doen with the program cam_cal.py, inc
 
 ## 2. finding lane line pixels
 
-The strategy that I employed here is to find various layers that had <u>only</u> lane line pixels in them and subsequently stack them on top of eachother by a binary OR function. This required tuning the various operators at hand to filter out pixels that don't belong to lane lines. I created a tool for doing that, included in this repository (directory Sobel-tools), with slide bars for various parameters that change the behavior of the sobel operator and color masks. With the tool I could obtain a good inside look into how the various parameters interact. The Sobel tool has six sliders, making available changes in: 
+The strategy that I employed here is to find various layers that had <u>only</u> lane line pixels in them and subsequently stack them on top of eachother by a binary OR function. This required tuning the various operators at hand to filter out pixels that don't belong to lane lines. I created a tool, based on the code from a colleague student Maunesh, for doing that, The tool is included in this repository (directory Sobel-tools), with slide bars for various parameters that change the behavior of the sobel operator and color masks. With the tool I could obtain a good inside look into how the various parameters interact. The Sobel tool has six sliders, making available changes in: 
 * Colorspace
 * Layer within the Colorspace
 * Method (Sobel-x, Sobel-y, Sobel size of gradient, Sobel direction of gradient)
 * Size of the Sobel kernel
 * lower threshold
 * upper threshold
+
+Below is a screenshot from the tool, showing the slide bars and the resulting output image.
 
 I ended up finding six layers (Sobel or colormasked) that seemed to be worthwile to include in the final process. However in practice those layers together found an unacceptably large number of pixels not belonging to lane lines, leading to a badly performing pipeline on the video stream. Another reason to include a smaller number of layers is the processing time it took to handle those layers. Experimentally peeling of layers resulted in a leaner pipeline, in which the following to layers are used to find lane line pixels:
 * Sobel gradient in x direction on L channel in HLS space with thresholds of 170 and 255
