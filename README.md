@@ -46,6 +46,8 @@ The strategy that I employed here is to find various layers that had <u>only</u>
 
 Below is a screenshot from the tool, showing the slide bars and the resulting output image.
 
+<img width="1280" alt="screenshot 2017-01-28 09 05 14" src="https://cloud.githubusercontent.com/assets/23193240/22395286/1f76e4e2-e539-11e6-8491-bf91202e395b.png">
+
 I ended up finding six layers (Sobel or colormasked) that seemed to be worthwile to include in the final process. However in practice those layers together found an unacceptably large number of pixels not belonging to lane lines, leading to a badly performing pipeline on the video stream. Another reason to include a smaller number of layers is the processing time it took to handle those layers. Experimentally peeling of layers resulted in a leaner pipeline, in which the following to layers are used to find lane line pixels:
 * Sobel gradient in x direction on L channel in HLS space with thresholds of 170 and 255
 * Color threshold on the S channel in HLS space with thresholds of 20 and 100
@@ -108,3 +110,7 @@ The pipeline is run from the program find_video_lanes.py, while many functions a
 This project was quite demanding. It is not easy to discriminate lane line pixels from others. Playing with the various color spaces, Sobel filters and color masks provided me with an increasing insight in what might work and what absolutely didn't work. Averaging the lane lines over a couple of frames did the job for making the lane lines relatively smooth, but as can be seen from the video, the algorithm had difficulties to lock to the dashed lane line.
 
 A subsequent step would be to isolate lane segments and identify whether they fit on a smootly curving line. I think that is what humans do when following a dashed line: follow the line as if it weren't dashed, and see if you encounter the next section. But it's time to go onto the next project, so I'll leave it as it is for the moment.
+
+## sources
+
+* https://github.com/maunesh/canny-gui-helper-tool
